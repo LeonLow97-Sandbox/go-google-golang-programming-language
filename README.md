@@ -3,7 +3,7 @@
 - <a href="https://go.dev/ref/spec" target="_blank">Golang Language Specification</a>
 - <a href="https://gobyexample.com/" target="_blank" >Go by Example</a>
 - <a href="https://go.dev/play/" target="_blank">Go Playground</a>
-- <a href="https://pkg.go.dev/std" target="_blank">Go Packages</a>
+- <a href="https://pkg.go.dev/std" target="_blank">Go Package Documentation</a>
 - <a href="https://godoc.org">GoDoc</a>
 
 # Content
@@ -332,5 +332,83 @@ func factorial (n int) int {
 
 # Application
 
-### JSON Documentation
+### JSON Marshal
 
+- `func Marshal(v any) ([]byte, error)`
+- Returns a slice of bytes and error
+- Taking data and turning it into JSON
+
+```
+	people := []person{p1, p2}
+
+	fmt.Println(people)
+
+	// Marshal
+	bs, err := json.Marshal(people)
+	if err != nil {
+		fmt.Println(err)
+	}
+	// Convert byte slice to string
+	fmt.Println(string(bs))
+```
+
+### JSON UnMarshal
+
+- `func Unmarshal(data []byte, v any) error`
+- Unmarshal parses the JSON-encoded data and stores the result in the value pointer to by v (data structure).
+- <a href="https://mholt.github.io/json-to-go/">Convert JSON to Go</a>
+- Receiving JSON data and putting it into GoLang Data Structure.
+
+### Writer Interface
+
+- Encode: Send out as JSON
+- Decode: Bring in JSON
+- Write it to the output source
+- Can be a file or web connection, send it to client.
+
+### Sort
+
+```
+func main() {
+	s := []string{"Go", "Bravo", "Gopher", "Alpha", "Grin", "Delta"}
+	sort.Strings(s)
+	fmt.Println(s)
+}
+```
+
+- Sorting a slice of int in ascending order
+
+### Sort Custom
+
+```
+type ByAge []Person
+
+func (a ByAge) Len() int           { return len(a) }
+func (a ByAge) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a ByAge) Less(i, j int) bool { return a[i].Age < a[j].Age }
+
+type ByName []Person
+
+func (bn ByName) Len() int           { return len(bn) }
+func (bn ByName) Swap(i, j int)      { bn[i], bn[j] = bn[j], bn[i] }
+func (bn ByName) Less(i, j int) bool { return bn[i].First < bn[j].First }
+
+func main() {
+	p1 := Person{"James", 32}
+	p2 := Person{"Moneypenny", 27}
+	p3 := Person{"Q", 64}
+	p4 := Person{"M", 56}
+
+	people := []Person{p1, p2, p3, p4}
+
+	fmt.Println(people)
+	// define a set of methods for the slice type, as with ByAge, and
+	// call sort.Sort. In this first example we use that technique.
+	// type conversion: `people` now is type `ByAge`
+	sort.Sort(ByAge(people))
+	fmt.Println(people)
+
+	sort.Sort(ByName(people))
+	fmt.Println(people)
+}
+```

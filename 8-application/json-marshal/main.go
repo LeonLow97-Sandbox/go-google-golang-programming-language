@@ -6,21 +6,21 @@ import (
 )
 
 type person struct {
-	first string
-	last  string
-	age   int
+	First string
+	Last  string
+	Age   int
 }
 
 func main() {
 	p1 := person{
-		first: "Leon",
-		last:  "Low",
-		age:   25,
+		First: "Leon",
+		Last:  "Low",
+		Age:   25,
 	}
 	p2 := person{
-		first: "James",
-		last:  "Bond",
-		age:   32,
+		First: "James",
+		Last:  "Bond",
+		Age:   32,
 	}
 
 	people := []person{p1, p2}
@@ -32,6 +32,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
+	// Convert byte slice to string
 	fmt.Println(string(bs))
 }
 
