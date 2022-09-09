@@ -366,6 +366,21 @@ func factorial (n int) int {
 - Write it to the output source
 - Can be a file or web connection, send it to client.
 
+- type `Writer`
+
+```
+type Writer interface {
+	Write(p []byte) (n int, err error)
+}
+```
+
+- In the example, we used Fprintln which takes in a writer interface <br>
+  `func Fprintln(w io.Writer, a ...any) (n int, err error)` <br>
+  `n, err := fmt.Fprintln(os.Stdout, name, "is", age, "years old.")`
+- `os.Stdout` is of type Writer
+- func `WriteString` <br>
+  `func WriteString(w Writer, s string) (n int, err error)`
+
 ### Sort
 
 ```
@@ -411,4 +426,31 @@ func main() {
 	sort.Sort(ByName(people))
 	fmt.Println(people)
 }
+```
+
+### bcrypt
+
+- To install bcrypt:
+
+  - `go env` to check GO111MODULE value.
+  - If not set to `auto`, run `go env -w GO111MODULE=auto`
+  - `go get golang.org/x/crypto/bcrypt`
+
+- <a href="https://pkg.go.dev/golang.org/x/crypto/bcrypt">Bcrypt Link</a>
+
+- For encrypting and storing passwords, a hashing function. <br>
+  `func GenerateFromPassword(password []byte, cost int) ([]byte, error)`
+
+- CompareHashAndPassword compares a bcrypt hashed password with its possible plaintext equivalent
+- Returns nil on success, or an error on failure.
+  `func CompareHashAndPassword(hashedPassword, password []byte) error`
+
+- Cost
+
+```
+const (
+	MinCost     int = 4  // the minimum allowable cost as passed in to GenerateFromPassword
+	MaxCost     int = 31 // the maximum allowable cost as passed in to GenerateFromPassword
+	DefaultCost int = 10 // the cost that will actually be set if a cost below MinCost is passed into GenerateFromPassword
+)
 ```
