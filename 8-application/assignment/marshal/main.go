@@ -31,5 +31,6 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
+	// returns byte slice of json encoding
 	fmt.Println(string(bs))
 }
