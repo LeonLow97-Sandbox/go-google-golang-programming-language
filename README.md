@@ -454,3 +454,23 @@ const (
 	DefaultCost int = 10 // the cost that will actually be set if a cost below MinCost is passed into GenerateFromPassword
 )
 ```
+
+# Concurrency
+
+### Concurrency vs Parallelism
+
+- Concurrency: can have multiple threads executing code. If 1 thread blocks, another one is picked up and worked on.
+- Parallelism: multiple threads executed at the exact same time. Requires multiple CPUs.
+
+### WaitGroup
+
+- <a href="https://godoc.org/sync">Go Doc WaitGroup</a>
+
+### Method Sets Revisited
+
+- A type may have a method set associated with it.
+- The method set of a type determines the interfaces that the type implements and the methods that can be called using a receiver of that type. 
+
+### Documentation
+
+- 
