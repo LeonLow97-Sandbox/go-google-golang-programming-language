@@ -586,3 +586,61 @@ func main() {
 }
 ```
 
+- Successful Buffer
+
+```
+func main() {
+	// buffer channel: allows value to sit in there
+	// 1 is the value in this case
+	c := make(chan int, 1)
+
+	// 42 gets put into the channel because there is a buffer of 1
+	// no longer blocking the channel
+	c <- 42
+	c <- 43
+
+	fmt.Println(<-c)
+	fmt.Println(<-c)
+}
+```
+
+### Directional Channels
+
+- Read channels from left to right
+
+| Directional Channel |           Code            |                       Description                        |
+| :-----------------: | :-----------------------: | :------------------------------------------------------: |
+|       Receive       | `cr := make(<-chan int)`  | data only comes out (can read from, but cannot write to) |
+|        Send         | `cs := make(chan <- int)` |  data only goes in (cannot read from, but can write to)  |
+
+- Error in receiving from channel
+
+```
+func main() {
+	c := make(chan <- int, 2)  // channel is going to be sent an int
+
+	c <- 42
+	c <- 43
+
+	fmt.Println(<-c) // error: trying to receive from the channel too
+	fmt.Println(<-c)
+	fmt.Println("-----")
+	fmt.Printf("%T\n", c)
+}
+```
+
+- Receive only channel
+
+```
+func main() {
+	c := make(<- chan int, 2)
+
+	c <- 42
+	c <- 43
+
+	fmt.Println(<-c)
+	fmt.Println(<-c)
+	fmt.Println("-----")
+	fmt.Printf("%T\n", c)
+}
+```
