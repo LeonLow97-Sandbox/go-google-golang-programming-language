@@ -464,6 +464,10 @@ const (
 
 ### WaitGroup
 
+- `WaitGroup` waits for a collection of goroutines to finish.
+- The main goroutine calls `Add` to set the number of goroutines to wait for.
+- Then each of the goroutines runs and calls `Done` when finished.
+- At the same time, `Wait` can be used to block until all goroutines have finished.
 - <a href="https://godoc.org/sync">Go Doc WaitGroup</a>
 
 ### Method Sets Revisited
@@ -471,6 +475,6 @@ const (
 - A type may have a method set associated with it.
 - The method set of a type determines the interfaces that the type implements and the methods that can be called using a receiver of that type. 
 
-### Documentation
+### Mutex
 
-- 
+- To prevent a race condition, so that multiple go routines can access that same code at the same time.
