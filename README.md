@@ -473,17 +473,17 @@ const (
 ### Method Sets Revisited
 
 - A type may have a method set associated with it.
-- The method set of a type determines the interfaces that the type implements and the methods that can be called using a receiver of that type. 
+- The method set of a type determines the interfaces that the type implements and the methods that can be called using a receiver of that type.
 
 ### Race Condition
 
-- Race conditions are the outcomes of 2 different concurrent contexts reading and writing to the same shared data at the same time, resulting in an unexpected output. 
+- Race conditions are the outcomes of 2 different concurrent contexts reading and writing to the same shared data at the same time, resulting in an unexpected output.
 - In Golang, 2 concurrent goroutines that access the same variable concurrently will produce a data race in the program.
 
 ### `runtime.Gosched()`
 
 - Gosched yields the processor, allowing other goroutines to run.
-- It does not suspend the current goroutine, so execution resumes automatically. 
+- It does not suspend the current goroutine, so execution resumes automatically.
 
 ### Mutex
 
@@ -497,10 +497,92 @@ const (
 - These function require great care to be used correctly.
 
 - The add operation, implemented by the `AddT` functions, is the atomic equivalent of:
+
 ```
 *addr += delta
 return *addr
 ```
 
 - `func AddInt64(addr *int64, delta int64) (new int64)`
-- `AddInt64` automatically adds delta to *addr and returns the new value.
+- `AddInt64` automatically adds delta to \*addr and returns the new value.
+
+# Channels
+
+### Channels
+
+|          Channels           |                Code                 |
+| :-------------------------: | :---------------------------------: |
+|      Making a channel       |        `c := make(chan int)`        |
+| Putting values on a channel |              `c <- 42`              |
+| Taking values off a channel |               `<- c`                |
+|  Making a buffered channel  | `c := make(chan int, <buffer no.>`) |
+
+### Understanding Channels
+
+- `Concurrency`: have multiple goroutines running at the same time.
+
+- The following code does not work.
+- This is because "channels block"
+
+```
+func main() {
+	// creates a channel
+	c := make(chan int)
+
+	// blocks the channel in this single goroutine main
+	c <- 42
+
+	fmt.Println(<-c)
+}
+```
+
+- The following code works.
+- 2 goroutines are created, one of which receives value in the channel
+- At the end of the code execution, the value was taken out of the channel.
+
+```
+func main() {
+	c := make(chan int)
+
+	go func() {
+		c <- 42
+	}()
+
+	fmt.Println(<-c)
+}
+```
+
+- Another method (buffer) of a working channel
+
+```
+func main() {
+	// buffer channel: allows value to sit in there
+	// 1 is the value in this case
+	c := make(chan int, 1)
+
+	// 42 gets put into the channel because there is a buffer of 1
+	// no longer blocking the channel
+	c <- 42
+
+	fmt.Println(<-c)
+}
+```
+
+- Unsuccessful buffer
+- Added another value to be put into the channel but the channel only has a buffer of 1
+
+```
+func main() {
+	// buffer channel: allows value to sit in there
+	// 1 is the value in this case
+	c := make(chan int, 1)
+
+	// 42 gets put into the channel because there is a buffer of 1
+	// no longer blocking the channel
+	c <- 42
+	c <- 43
+
+	fmt.Println(<-c)
+}
+```
+
