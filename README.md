@@ -475,6 +475,32 @@ const (
 - A type may have a method set associated with it.
 - The method set of a type determines the interfaces that the type implements and the methods that can be called using a receiver of that type. 
 
+### Race Condition
+
+- Race conditions are the outcomes of 2 different concurrent contexts reading and writing to the same shared data at the same time, resulting in an unexpected output. 
+- In Golang, 2 concurrent goroutines that access the same variable concurrently will produce a data race in the program.
+
+### `runtime.Gosched()`
+
+- Gosched yields the processor, allowing other goroutines to run.
+- It does not suspend the current goroutine, so execution resumes automatically. 
+
 ### Mutex
 
 - To prevent a race condition, so that multiple go routines can access that same code at the same time.
+- `Lock`: If the lock is already in use, the calling goroutine blocks until the mutex is available.
+- `Unlock`: It is allowed for one goroutine to lock a Mutex and then arrange for another goroutine to unlock it.
+
+### Atomic
+
+- Package atomic provides low-level atomic memory primitives useful for implementing synchronization algorithms.
+- These function require great care to be used correctly.
+
+- The add operation, implemented by the `AddT` functions, is the atomic equivalent of:
+```
+*addr += delta
+return *addr
+```
+
+- `func AddInt64(addr *int64, delta int64) (new int64)`
+- `AddInt64` automatically adds delta to *addr and returns the new value.
