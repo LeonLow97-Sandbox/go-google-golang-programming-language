@@ -644,3 +644,48 @@ func main() {
 	fmt.Printf("%T\n", c)
 }
 ```
+
+### Ranging over a channel
+
+- `close()` waits for the channel to complete. 
+```
+func main() {
+
+	c := make(chan int)
+
+	go foo(c)
+
+	for v := range c {
+		fmt.Println(v)
+	}
+
+	fmt.Println("about to exit")
+}
+
+// send only channel
+func foo(c chan<- int) {
+	for i := 0; i < 100; i++ {
+		c <- i
+	}
+	close(c)
+}
+```
+
+### `select` statement
+
+```
+	for {
+		select {
+		case v := <-e:
+			fmt.Println("from the even channel:", v)
+		case v := <-o:
+			fmt.Println("from the odd channel:", v)
+		case v := <-q:
+			fmt.Println("from the quit channel:", v)
+			return
+		}
+	}
+```
+
+
+
