@@ -687,5 +687,45 @@ func foo(c chan<- int) {
 	}
 ```
 
+# Error Handling
+
+|Error|Description|
+|:-:|:-:|
+|`fmt.Println()`|Print out to os.Stdout|
+|`log.Println()`|Can choose the location to display the error|
+|`log.Fatalln()`|`os.Exit()`. Shut down. Fatal function call os.Exit(1) after writing the log message|
+|`log.Panicln()`|Deferred functions run. Can use "recover" from an error.|
+|`panic()`|Another type of error.|
+
+
+- Fatal functions call ox.Exit(1) after writing the log message...
+- Fatalln is equivalent to Println() followed by a call to os.Exit(1)
+
+- Panicln is equivalent to Println followed by a call to panic()
+- Fatalln is equivalent to Println() followed by a call to os.Exit(1).
+
+### Log Error
+
+- Logging errors might be better to save the output of errors in a file. 
+
+```Golang
+log.SetOutput(<Writer Interface>)
+```
+
+### Defer Panic and Recover
+
+[Defer, Panic and Recover](https://go.dev/blog/defer-panic-and-recover)
+- Recover is only useful inside deferred functions.
+
+### Error Type
+
+```
+type error interface {
+	Error() string
+}
+```
+
+
+
 
 
