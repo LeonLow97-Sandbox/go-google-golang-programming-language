@@ -725,7 +725,45 @@ type error interface {
 }
 ```
 
+# Testing & Benchmarking
 
+### Introduction
+
+- Tests must
+	- be in a file that ends with `_test.go` 
+	- put the file in the same package as the one being tested
+	- be in a func with a signature `func TestXx(*testing.T)`
+
+- Run a test
+	- `go test`
+
+- Deal with a test failure
+	- use the Error, Fail or related methods to signal failure.
+
+[Golang Testing](https://www.golang-book.com/books/intro/12)
+
+### Run all folder beneath the current directory
+
+`go test ./...`
+
+### Example Code
+
+```
+func ExampleSum() {
+	fmt.Println(Sum(2, 3))
+	// Output:
+	// 5
+}
+```
+
+### Golint
+
+- Golint is a linter for Go source code.
+- Golint differs from gofmt. Gofmt reformats Go source code, whereas golint prints out style mistakes.
+- Golint differs from govet. Govet is concerned with correctness, whereas golint is concerned with coding style.
+
+- `go get -u golang.org/x/lint/golint`
+- `go list -f {{.Target}} golang.org/x/lint/golint`
 
 
 
